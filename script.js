@@ -2,10 +2,10 @@ const bgm = document.getElementById("bgm");
 const clickSound = document.getElementById("clickSound");
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.querySelector(".yes-btn");
-const catReaction = document.getElementById("catReaction");
 
 let musicStarted = false;
 let yesScale = 1;
+let noCount = 0;
 
 // Start music on first interaction
 document.addEventListener("click", function () {
@@ -16,50 +16,59 @@ document.addEventListener("click", function () {
     }
 });
 
-// Soft click sound
 function playClick() {
     clickSound.volume = 0.2;
     clickSound.currentTime = 0;
     clickSound.play();
 }
 
-// YES Click
+// YES CLICK → POPUP
 function yesClick() {
     playClick();
 
-    catReaction.innerHTML = `
-        <div class="popup">
-            <h3>That felt right, didn’t it? 💞</h3>
-            <p>You just made a beautiful choice ✨</p>
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+
+    overlay.innerHTML = `
+        <div class="popup-box">
+            <h3>You chose love 💞</h3>
+            <p>Some decisions feel magical… this was one of them ✨</p>
         </div>
     `;
 
-    // Soft floating hearts
-    for (let i = 0; i < 8; i++) {
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener("click", () => {
+        overlay.remove();
+    });
+
+    // Floating hearts
+    for (let i = 0; i < 10; i++) {
         setTimeout(() => {
             const heart = document.createElement("div");
             heart.className = "emoji";
-            heart.innerText = "💗";
+            heart.innerText = "💖";
             heart.style.left = Math.random() * 100 + "vw";
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 4000);
-        }, i * 300);
+        }, i * 200);
     }
 }
 
-// NO movement (LESS movement now)
+// NO CLICK
 function moveNo() {
     playClick();
+    noCount++;
 
-    // small random shift (limited range)
-    const x = Math.random() * 60 - 30;   // -30px to +30px
-    const y = Math.random() * 40 - 20;   // -20px to +20px
+    // Slightly more movement but still controlled
+    const x = Math.random() * 120 - 60;   // -60px to +60px
+    const y = Math.random() * 80 - 40;    // -40px to +40px
 
     noBtn.style.transition = "transform 0.3s ease";
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 
-    // YES button grows every time NO is pressed
-    yesScale += 0.15;
+    // YES grows smoothly
+    yesScale += 0.12;
     yesBtn.style.transition = "transform 0.3s ease";
     yesBtn.style.transform = `scale(${yesScale})`;
 }
