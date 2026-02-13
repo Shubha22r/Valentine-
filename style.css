@@ -1,4 +1,4 @@
-*{
+*{l
     margin:0;
     padding:0;
     box-sizing:border-box;
@@ -142,4 +142,18 @@ button{
 .cat-card img{
     width:100px;
     border-radius:15px;
+}
+
+@keyframes floatUp{
+    0%{
+        transform: translateY(0);
+        opacity:0;
+    }
+    20%{
+        opacity:1;
+    }
+    100%{
+        transform: translateY(-120vh);
+        opacity:0;
+    }
 }
