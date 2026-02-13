@@ -17,18 +17,26 @@ function yesClick(){
     emojiRain();
 }
 
-// Emoji celebration
 function emojiRain(){
-    for(let i=0;i<70;i++){
-        const emoji=document.createElement("div");
-        emoji.innerHTML=["💖","✨","🥰","🎉"][Math.floor(Math.random()*2)];
-        emoji.style.position="fixed";
-        emoji.style.left=Math.random()*100+"vw";
-        emoji.style.top="-20px";
-        emoji.style.fontSize="25px";
-        emoji.style.animation="fall 3s linear forwards";
+    const emojis = ["💖","💕","💘","✨","🥰"];
+    
+    for(let i=0;i<20;i++){   // fewer emojis (20 only)
+
+        const emoji = document.createElement("div");
+        emoji.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
+        
+        emoji.style.position = "fixed";
+        emoji.style.left = Math.random()*100 + "vw";
+        emoji.style.bottom = "-20px";
+        emoji.style.fontSize = "22px";
+        emoji.style.opacity = "0";
+        emoji.style.pointerEvents = "none";
+        
+        emoji.style.animation = "floatUp 4s ease-in-out forwards";
+
         document.body.appendChild(emoji);
-        setTimeout(()=>emoji.remove(),3000);
+
+        setTimeout(()=> emoji.remove(), 4000);
     }
 }
 
