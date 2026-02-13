@@ -265,3 +265,33 @@ button{
         opacity: 0;
     }
 }
+
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Floating section animation */
+.section {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+/* When visible */
+.section.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Slow floating glass effect */
+.glass-card {
+    animation: floatCard 6s ease-in-out infinite;
+}
+
+@keyframes floatCard {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+}
