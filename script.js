@@ -7,7 +7,8 @@ let musicStarted = false;
 let yesScale = 1;
 let noCount = 0;
 
-// Start music on first interaction
+/* ================= MUSIC ================= */
+
 document.addEventListener("click", function () {
     if (!musicStarted) {
         bgm.volume = 0.5;
@@ -21,14 +22,15 @@ function playClick() {
     clickSound.currentTime = 0;
     clickSound.play();
 }
+
+/* ================= SECTION REVEAL ================= */
+
 const sections = document.querySelectorAll(".section");
 
 function revealOnScroll() {
     sections.forEach(section => {
         const rect = section.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-
-        if (rect.top < windowHeight - 100) {
+        if (rect.top < window.innerHeight - 100) {
             section.classList.add("show");
         }
     });
@@ -36,7 +38,6 @@ function revealOnScroll() {
 
 window.addEventListener("scroll", revealOnScroll);
 
-// Auto reveal one by one (even without scroll)
 window.addEventListener("load", () => {
     sections.forEach((section, index) => {
         setTimeout(() => {
@@ -45,7 +46,8 @@ window.addEventListener("load", () => {
     });
 });
 
-// YES CLICK → POPUP
+/* ================= YES CLICK ================= */
+
 function yesClick() {
     playClick();
 
@@ -63,21 +65,17 @@ function yesClick() {
     document.body.appendChild(overlay);
     overlay.addEventListener("click", () => overlay.remove());
 
-    // Floating Emojis BOTH directions
+    // Floating emojis BOTH directions
     for (let i = 0; i < 16; i++) {
-
         const emoji = document.createElement("div");
         emoji.className = "floating-emoji";
         emoji.innerText = "💖";
-
         emoji.style.left = Math.random() * 100 + "vw";
 
         if (i % 2 === 0) {
-            // Bottom → Top
             emoji.style.bottom = "-30px";
             emoji.style.animation = "floatUp 6s linear forwards";
         } else {
-            // Top → Bottom
             emoji.style.top = "-30px";
             emoji.style.animation = "floatDown 6s linear forwards";
         }
@@ -90,63 +88,19 @@ function yesClick() {
     }
 }
 
-    // Floating hearts
-    for (let i = 0; i < 10; i++) {
-        setTimeout(() => {
-            const heart = document.createElement("div");
-            heart.className = "emoji";
-            heart.innerText = "💖";
-            heart.style.left = Math.random() * 100 + "vw";
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 4000);
-        }, i * 200);
-    }
-}
+/* ================= NO CLICK ================= */
 
-// NO CLICK
 function moveNo() {
     playClick();
     noCount++;
 
-    // Slightly more movement but still controlled
-    const x = Math.random() * 120 - 60;   // -60px to +60px
-    const y = Math.random() * 80 - 40;    // -40px to +40px
+    const x = Math.random() * 120 - 60;
+    const y = Math.random() * 80 - 40;
 
     noBtn.style.transition = "transform 0.3s ease";
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 
-    // YES grows smoothly
     yesScale += 0.12;
     yesBtn.style.transition = "transform 0.3s ease";
     yesBtn.style.transform = `scale(${yesScale})`;
 }
-
-
-// Reveal on scroll
-const sections = document.querySelectorAll(".section");
-
-function revealSections() {
-    const triggerBottom = window.innerHeight * 0.85;
-
-    sections.forEach(section => {
-        const boxTop = section.getBoundingClientRect().top;
-
-        if (boxTop < triggerBottom) {
-            section.classList.add("show");
-        }
-    });
-}
-
-// On scroll
-window.addEventListener("scroll", revealSections);
-
-// Auto reveal (for small pages without scroll)
-window.addEventListener("load", () => {
-    setTimeout(() => {
-        sections.forEach((section, index) => {
-            setTimeout(() => {
-                section.classList.add("show");
-            }, index * 400);
-        });
-    }, 300);
-});
