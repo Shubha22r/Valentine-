@@ -21,7 +21,7 @@ function yesClick(){
 function emojiRain(){
     for(let i=0;i<70;i++){
         const emoji=document.createElement("div");
-        emoji.innerHTML=["💖","💘","💕","✨","🥰","🎉"][Math.floor(Math.random()*6)];
+        emoji.innerHTML=["💖","💘","💕","✨","🥰","🎉"][Math.floor(Math.random()*2)];
         emoji.style.position="fixed";
         emoji.style.left=Math.random()*100+"vw";
         emoji.style.top="-20px";
