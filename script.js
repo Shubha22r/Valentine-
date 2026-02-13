@@ -1,30 +1,62 @@
-// Music start on first click
-document.body.addEventListener("click", function(){
-    document.getElementById("bgm").play();
-},{ once:true });
+const bgm = document.getElementById("bgm");
+const noBtn = document.getElementById("noBtn");
+const catReaction = document.getElementById("catReaction");
 
-// Faster crazy NO button
-function moveNo(){
-    const btn=document.getElementById("noBtn");
-    btn.style.top=Math.random()*300+"px";
-    btn.style.left=Math.random()*300+"px";
-    btn.style.transform="scale(0.9)";
+/* Floating background hearts */
+function createHearts(){
+    const container = document.querySelector(".floating-hearts");
+    const heart = document.createElement("span");
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.fontSize = (Math.random()*10 + 15) + "px";
+    container.appendChild(heart);
+
+    setTimeout(()=>heart.remove(),8000);
 }
 
-// YES click animation
+setInterval(createHearts,800);
+
+/* YES Button */
 function yesClick(){
-    document.getElementById("catReaction").innerHTML="🐾 Mew Approved 💖";
-    emojiRain();
+
+    bgm.play();
+
+    catReaction.innerHTML = `
+        <div style="
+            margin-top:20px;
+            background:white;
+            color:#ff4d6d;
+            padding:20px;
+            border-radius:15px;
+            font-weight:600;
+        ">
+            You just made the most beautiful decision of your life…  
+            And I promise to make it worth it every single day 💖  
+            – Shubhankar
+        </div>
+    `;
+
+    emojiEffect();
 }
 
-function emojiRain(){
+/* Fast NO Button */
+function moveNo(){
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 60);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+/* Smooth floating emojis on YES */
+function emojiEffect(){
 
     const emojis = ["💖","💕","✨","🥰"];
     let count = 0;
 
-    const interval = setInterval(() => {
+    const interval = setInterval(()=>{
 
-        if(count >= 12){   // only 12 emojis total
+        if(count >= 12){
             clearInterval(interval);
             return;
         }
@@ -32,27 +64,18 @@ function emojiRain(){
         const emoji = document.createElement("div");
         emoji.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
 
-        emoji.style.position = "fixed";
-        emoji.style.left = Math.random()*90 + "vw";
-        emoji.style.bottom = "-30px";
-        emoji.style.fontSize = "22px";
-        emoji.style.pointerEvents = "none";
-
-        emoji.style.animation = "floatUp 5s ease-in-out forwards";
+        emoji.style.position="fixed";
+        emoji.style.left=Math.random()*90 + "vw";
+        emoji.style.bottom="-30px";
+        emoji.style.fontSize="22px";
+        emoji.style.pointerEvents="none";
+        emoji.style.animation="floatUp 5s ease-in-out forwards";
 
         document.body.appendChild(emoji);
 
-        setTimeout(() => emoji.remove(), 5000);
+        setTimeout(()=>emoji.remove(),5000);
 
         count++;
 
-    }, 300);  // appears one by one every 0.3s
+    },300);
 }
-
-const style=document.createElement("style");
-style.innerHTML=`
-@keyframes fall{
-from{transform:translateY(0);}
-to{transform:translateY(110vh);}
-}`;
-document.head.appendChild(style);
