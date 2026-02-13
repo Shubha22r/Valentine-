@@ -5,75 +5,50 @@ const yesBtn = document.querySelector(".yes-btn");
 
 let yesScale = 1;
 
-/* ================= AUTO SECTION REVEAL ================= */
-
-function revealSections() {
-    const sections = document.querySelectorAll(".section");
-
-    sections.forEach((section, sectionIndex) => {
-
-        setTimeout(() => {
-            section.classList.add("show");
-
-            // Select all text elements inside section
-            const lines = section.querySelectorAll("h1, h2, p, .love-item");
-
-            lines.forEach((line, index) => {
-                line.classList.add("line");
-
-                setTimeout(() => {
-                    line.classList.add("show-line");
-                }, index * 400);
-
-            });
-
-        }, sectionIndex * 1000);
-
-    });
-}
-
-window.addEventListener("load", revealSections);
-
-/* ================= BACKGROUND MUSIC FIX ================= */
-/* Browsers block autoplay until user interaction */
-
+/* START MUSIC ON FIRST CLICK */
 document.body.addEventListener("click", function startMusic() {
     bgm.volume = 0.6;
     bgm.play().catch(() => {});
     document.body.removeEventListener("click", startMusic);
 });
 
+/* LINE BY LINE ANIMATION */
+window.addEventListener("load", function () {
 
-/* ================= NO BUTTON MOVE ================= */
+    const lines = document.querySelectorAll(
+        ".section h1, .section h2, .section p, .section .love-item"
+    );
 
+    lines.forEach((line, index) => {
+        setTimeout(() => {
+            line.classList.add("show-line");
+        }, index * 500);
+    });
+
+});
+
+/* NO BUTTON MOVE */
 function moveNo() {
     clickSound.play();
 
-    const moveX = Math.random() * 120 - 60;
-    const moveY = Math.random() * 60 - 30;
+    const moveX = Math.random() * 140 - 70;
+    const moveY = Math.random() * 80 - 40;
 
     noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
 
-    // YES grows slightly
     yesScale += 0.1;
     yesBtn.style.transform = `scale(${yesScale})`;
 }
 
-
-/* ================= YES CLICK ================= */
-
+/* YES BUTTON CLICK */
 function yesClick() {
     clickSound.play();
-
     yesBtn.style.transform = "scale(1.6)";
     createFloatingEmojis();
-
     showPopup();
 }
 
-
-/* ================= POPUP ================= */
-
+/* POPUP */
 function showPopup() {
     const popup = document.createElement("div");
     popup.className = "popup-overlay";
@@ -92,20 +67,27 @@ function showPopup() {
     }, 3000);
 }
 
-
-/* ================= FLOATING EMOJIS ================= */
-
+/* FLOATING EMOJIS */
 function createFloatingEmojis() {
     const emojis = ["💖","💕","✨","🥰","💞","😻"];
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 25; i++) {
         const emoji = document.createElement("div");
         emoji.className = "floating-emoji";
         emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
 
         emoji.style.left = Math.random() * 100 + "vw";
 
-        // Random direction
+        const direction = Math.random() > 0.5 ? "floatUp" : "floatDown";
+        emoji.style.animation = `${direction} ${3 + Math.random()*2}s linear`;
+
+        document.body.appendChild(emoji);
+
+        setTimeout(() => {
+            emoji.remove();
+        }, 5000);
+    }
+}        // Random direction
         const direction = Math.random() > 0.5 ? "floatUp" : "floatDown";
         emoji.style.animation = `${direction} ${3 + Math.random()*2}s linear`;
 
