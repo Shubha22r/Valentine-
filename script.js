@@ -9,15 +9,30 @@ let yesScale = 1;
 
 function revealSections() {
     const sections = document.querySelectorAll(".section");
-    sections.forEach((section, index) => {
+
+    sections.forEach((section, sectionIndex) => {
+
         setTimeout(() => {
             section.classList.add("show");
-        }, index * 600);
+
+            // Select all text elements inside section
+            const lines = section.querySelectorAll("h1, h2, p, .love-item");
+
+            lines.forEach((line, index) => {
+                line.classList.add("line");
+
+                setTimeout(() => {
+                    line.classList.add("show-line");
+                }, index * 400);
+
+            });
+
+        }, sectionIndex * 1000);
+
     });
 }
 
 window.addEventListener("load", revealSections);
-
 
 /* ================= BACKGROUND MUSIC FIX ================= */
 /* Browsers block autoplay until user interaction */
