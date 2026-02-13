@@ -3,104 +3,101 @@ const clickSound = document.getElementById("clickSound");
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.querySelector(".yes-btn");
 
-let musicStarted = false;
 let yesScale = 1;
-let noCount = 0;
 
-/* ================= MUSIC ================= */
+/* ================= AUTO SECTION REVEAL ================= */
 
-document.addEventListener("click", function () {
-    if (!musicStarted) {
-        bgm.volume = 0.5;
-        bgm.play();
-        musicStarted = true;
-    }
-});
-
-function playClick() {
-    clickSound.volume = 0.2;
-    clickSound.currentTime = 0;
-    clickSound.play();
-}
-
-/* ================= SECTION REVEAL ================= */
-
-const sections = document.querySelectorAll(".section");
-
-function revealOnScroll() {
-    sections.forEach(section => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 100) {
-            section.classList.add("show");
-        }
-    });
-}
-
-window.addEventListener("scroll", revealOnScroll);
-
-window.addEventListener("load", () => {
+function revealSections() {
+    const sections = document.querySelectorAll(".section");
     sections.forEach((section, index) => {
         setTimeout(() => {
             section.classList.add("show");
-        }, index * 500);
+        }, index * 600);
     });
+}
+
+window.addEventListener("load", revealSections);
+
+
+/* ================= BACKGROUND MUSIC FIX ================= */
+/* Browsers block autoplay until user interaction */
+
+document.body.addEventListener("click", function startMusic() {
+    bgm.volume = 0.6;
+    bgm.play().catch(() => {});
+    document.body.removeEventListener("click", startMusic);
 });
+
+
+/* ================= NO BUTTON MOVE ================= */
+
+function moveNo() {
+    clickSound.play();
+
+    const moveX = Math.random() * 120 - 60;
+    const moveY = Math.random() * 60 - 30;
+
+    noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+
+    // YES grows slightly
+    yesScale += 0.1;
+    yesBtn.style.transform = `scale(${yesScale})`;
+}
+
 
 /* ================= YES CLICK ================= */
 
 function yesClick() {
-    playClick();
+    clickSound.play();
 
-    // Popup
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
+    yesBtn.style.transform = "scale(1.6)";
+    createFloatingEmojis();
 
-    overlay.innerHTML = `
+    showPopup();
+}
+
+
+/* ================= POPUP ================= */
+
+function showPopup() {
+    const popup = document.createElement("div");
+    popup.className = "popup-overlay";
+
+    popup.innerHTML = `
         <div class="popup-box">
-            <h3>You chose love 💞</h3>
-            <p>Some decisions feel magical… this was one of them ✨</p>
+            <h3>She said YES 💖</h3>
+            <p>Best decision ever 😌✨</p>
         </div>
     `;
 
-    document.body.appendChild(overlay);
-    overlay.addEventListener("click", () => overlay.remove());
+    document.body.appendChild(popup);
 
-    // Floating emojis BOTH directions
-    for (let i = 0; i < 16; i++) {
+    setTimeout(() => {
+        popup.remove();
+    }, 3000);
+}
+
+
+/* ================= FLOATING EMOJIS ================= */
+
+function createFloatingEmojis() {
+    const emojis = ["💖","💕","✨","🥰","💞","😻"];
+
+    for (let i = 0; i < 20; i++) {
         const emoji = document.createElement("div");
         emoji.className = "floating-emoji";
-        emoji.innerText = "💖";
+        emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
         emoji.style.left = Math.random() * 100 + "vw";
 
-        if (i % 2 === 0) {
-            emoji.style.bottom = "-30px";
-            emoji.style.animation = "floatUp 6s linear forwards";
-        } else {
-            emoji.style.top = "-30px";
-            emoji.style.animation = "floatDown 6s linear forwards";
-        }
+        // Random direction
+        const direction = Math.random() > 0.5 ? "floatUp" : "floatDown";
+        emoji.style.animation = `${direction} ${3 + Math.random()*2}s linear`;
 
         document.body.appendChild(emoji);
 
         setTimeout(() => {
             emoji.remove();
-        }, 6000);
+        }, 5000);
     }
-}
-
-/* ================= NO CLICK ================= */
-
-function moveNo() {
-    playClick();
-    noCount++;
-
-    const x = Math.random() * 120 - 60;
-    const y = Math.random() * 80 - 40;
-
-    noBtn.style.transition = "transform 0.3s ease";
-    noBtn.style.transform = `translate(${x}px, ${y}px)`;
-
-    yesScale += 0.12;
-    yesBtn.style.transition = "transform 0.3s ease";
-    yesBtn.style.transform = `scale(${yesScale})`;
 }
