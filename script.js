@@ -26,6 +26,7 @@ function playClick() {
 function yesClick() {
     playClick();
 
+    // Popup
     const overlay = document.createElement("div");
     overlay.className = "popup-overlay";
 
@@ -37,10 +38,34 @@ function yesClick() {
     `;
 
     document.body.appendChild(overlay);
+    overlay.addEventListener("click", () => overlay.remove());
 
-    overlay.addEventListener("click", () => {
-        overlay.remove();
-    });
+    // Floating Emojis BOTH directions
+    for (let i = 0; i < 16; i++) {
+
+        const emoji = document.createElement("div");
+        emoji.className = "floating-emoji";
+        emoji.innerText = "💖";
+
+        emoji.style.left = Math.random() * 100 + "vw";
+
+        if (i % 2 === 0) {
+            // Bottom → Top
+            emoji.style.bottom = "-30px";
+            emoji.style.animation = "floatUp 6s linear forwards";
+        } else {
+            // Top → Bottom
+            emoji.style.top = "-30px";
+            emoji.style.animation = "floatDown 6s linear forwards";
+        }
+
+        document.body.appendChild(emoji);
+
+        setTimeout(() => {
+            emoji.remove();
+        }, 6000);
+    }
+}
 
     // Floating hearts
     for (let i = 0; i < 10; i++) {
