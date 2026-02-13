@@ -229,3 +229,39 @@ button{
     from { transform: scale(0.7); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
+
+
+/* Floating Emojis */
+.floating-emoji {
+    position: fixed;
+    font-size: 22px;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.9;
+}
+
+/* Bottom to Top */
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 0;
+    }
+    20% { opacity: 1; }
+    100% {
+        transform: translateY(-110vh) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* Top to Bottom */
+@keyframes floatDown {
+    0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 0;
+    }
+    20% { opacity: 1; }
+    100% {
+        transform: translateY(110vh) scale(1.2);
+        opacity: 0;
+    }
+}
