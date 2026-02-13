@@ -21,6 +21,29 @@ function playClick() {
     clickSound.currentTime = 0;
     clickSound.play();
 }
+const sections = document.querySelectorAll(".section");
+
+function revealOnScroll() {
+    sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        if (rect.top < windowHeight - 100) {
+            section.classList.add("show");
+        }
+    });
+}
+
+window.addEventListener("scroll", revealOnScroll);
+
+// Auto reveal one by one (even without scroll)
+window.addEventListener("load", () => {
+    sections.forEach((section, index) => {
+        setTimeout(() => {
+            section.classList.add("show");
+        }, index * 500);
+    });
+});
 
 // YES CLICK → POPUP
 function yesClick() {
