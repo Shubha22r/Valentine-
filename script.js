@@ -18,26 +18,35 @@ function yesClick(){
 }
 
 function emojiRain(){
-    const emojis = ["💖","💕","💘","✨","🥰"];
-    
-    for(let i=0;i<20;i++){   // fewer emojis (20 only)
+
+    const emojis = ["💖","💕","✨","🥰"];
+    let count = 0;
+
+    const interval = setInterval(() => {
+
+        if(count >= 12){   // only 12 emojis total
+            clearInterval(interval);
+            return;
+        }
 
         const emoji = document.createElement("div");
         emoji.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
-        
+
         emoji.style.position = "fixed";
-        emoji.style.left = Math.random()*100 + "vw";
-        emoji.style.bottom = "-20px";
+        emoji.style.left = Math.random()*90 + "vw";
+        emoji.style.bottom = "-30px";
         emoji.style.fontSize = "22px";
-        emoji.style.opacity = "0";
         emoji.style.pointerEvents = "none";
-        
-        emoji.style.animation = "floatUp 4s ease-in-out forwards";
+
+        emoji.style.animation = "floatUp 5s ease-in-out forwards";
 
         document.body.appendChild(emoji);
 
-        setTimeout(()=> emoji.remove(), 4000);
-    }
+        setTimeout(() => emoji.remove(), 5000);
+
+        count++;
+
+    }, 300);  // appears one by one every 0.3s
 }
 
 const style=document.createElement("style");
