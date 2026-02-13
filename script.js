@@ -97,3 +97,33 @@ function moveNo() {
     yesBtn.style.transition = "transform 0.3s ease";
     yesBtn.style.transform = `scale(${yesScale})`;
 }
+
+
+// Reveal on scroll
+const sections = document.querySelectorAll(".section");
+
+function revealSections() {
+    const triggerBottom = window.innerHeight * 0.85;
+
+    sections.forEach(section => {
+        const boxTop = section.getBoundingClientRect().top;
+
+        if (boxTop < triggerBottom) {
+            section.classList.add("show");
+        }
+    });
+}
+
+// On scroll
+window.addEventListener("scroll", revealSections);
+
+// Auto reveal (for small pages without scroll)
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        sections.forEach((section, index) => {
+            setTimeout(() => {
+                section.classList.add("show");
+            }, index * 400);
+        });
+    }, 300);
+});
