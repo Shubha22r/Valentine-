@@ -1,81 +1,65 @@
 const bgm = document.getElementById("bgm");
+const clickSound = document.getElementById("clickSound");
 const noBtn = document.getElementById("noBtn");
+const yesBtn = document.querySelector(".yes-btn");
 const catReaction = document.getElementById("catReaction");
 
-/* Floating background hearts */
-function createHearts(){
-    const container = document.querySelector(".floating-hearts");
-    const heart = document.createElement("span");
-    heart.innerHTML = "💖";
-    heart.style.left = Math.random()*100 + "vw";
-    heart.style.fontSize = (Math.random()*10 + 15) + "px";
-    container.appendChild(heart);
+let musicStarted = false;
+let yesScale = 1;
 
-    setTimeout(()=>heart.remove(),8000);
+// Start music on first interaction
+document.addEventListener("click", function () {
+    if (!musicStarted) {
+        bgm.volume = 0.5;
+        bgm.play();
+        musicStarted = true;
+    }
+});
+
+// Soft click sound
+function playClick() {
+    clickSound.volume = 0.2;
+    clickSound.currentTime = 0;
+    clickSound.play();
 }
 
-setInterval(createHearts,800);
-
-/* YES Button */
-function yesClick(){
-
-    bgm.play();
+// YES Click
+function yesClick() {
+    playClick();
 
     catReaction.innerHTML = `
-        <div style="
-            margin-top:20px;
-            background:white;
-            color:#ff4d6d;
-            padding:20px;
-            border-radius:15px;
-            font-weight:600;
-        ">
-            You just made the most beautiful decision of your life…  
-            And I promise to make it worth it every single day 💖  
-            – Shubhankar
+        <div class="popup">
+            <h3>That felt right, didn’t it? 💞</h3>
+            <p>You just made a beautiful choice ✨</p>
         </div>
     `;
 
-    emojiEffect();
+    // Soft floating hearts
+    for (let i = 0; i < 8; i++) {
+        setTimeout(() => {
+            const heart = document.createElement("div");
+            heart.className = "emoji";
+            heart.innerText = "💗";
+            heart.style.left = Math.random() * 100 + "vw";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+        }, i * 300);
+    }
 }
 
-/* Fast NO Button */
-function moveNo(){
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 60);
+// NO movement (LESS movement now)
+function moveNo() {
+    playClick();
 
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-}
+    // small random shift (limited range)
+    const x = Math.random() * 60 - 30;   // -30px to +30px
+    const y = Math.random() * 40 - 20;   // -20px to +20px
 
-/* Smooth floating emojis on YES */
-function emojiEffect(){
+    noBtn.style.transition = "transform 0.3s ease";
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
 
-    const emojis = ["💖","💕","✨","🥰"];
-    let count = 0;
-
-    const interval = setInterval(()=>{
-
-        if(count >= 12){
-            clearInterval(interval);
-            return;
-        }
-
-        const emoji = document.createElement("div");
-        emoji.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
-
-        emoji.style.position="fixed";
-        emoji.style.left=Math.random()*90 + "vw";
-        emoji.style.bottom="-30px";
-        emoji.style.fontSize="22px";
-        emoji.style.pointerEvents="none";
-        emoji.style.animation="floatUp 5s ease-in-out forwards";
-
-        document.body.appendChild(emoji);
-
-        setTimeout(()=>emoji.remove(),5000);
-
-        count++;
-
-    },300);
+    // YES button grows every time NO is pressed
+    yesScale += 0.15;
+    yesBtn.style.transition = "transform 0.3s ease";
+    yesBtn.style.transform = `scale(${yesScale})`;
 }
