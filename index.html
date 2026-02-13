@@ -4,218 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For Jyotika 💖</title>
-    <style>
-        /* CSS: STYLING & ANIMATIONS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Floating Hearts */
-        .heart {
-            position: absolute;
-            font-size: 25px;
-            color: rgba(255, 77, 109, 0.7);
-            z-index: 1;
-            user-select: none;
-            animation: floatUp linear infinite;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* Question Screen */
-        #main-card {
-            text-align: center;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            padding: 40px 20px;
-            border-radius: 20px;
-            width: 90%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: #ff4d6d;
-            font-weight: 900;
-            margin-bottom: 50px;
-            text-shadow: 2px 2px 0px white;
-        }
-
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            height: 60px;
-            position: relative;
-        }
-
-        button {
-            padding: 15px 35px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transition: transform 0.1s;
-        }
-
-        #yesBtn {
-            background: #ff4d6d;
-            color: white;
-            z-index: 11;
-        }
-
-        #noBtn {
-            background: #444;
-            color: white;
-            position: absolute;
-            z-index: 100;
-            transition: all 0.1s ease-out;
-        }
-
-        /* Success Screen */
-        #success-container {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: #fff0f3;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            text-align: center;
-        }
-
-        #success-text {
-            font-size: 3rem;
-            font-weight: 900;
-            color: #d00000;
-            margin-bottom: 20px;
-            z-index: 1002;
-        }
-
-        .dancing-gif {
-            width: 280px;
-            border: 10px solid #ff4d6d;
-            border-radius: 20px;
-            z-index: 1002;
-        }
-
-        /* Graffiti Style */
-        .graffiti {
-            position: absolute;
-            font-family: 'Impact', sans-serif;
-            text-transform: uppercase;
-            opacity: 0.5;
-            pointer-events: none;
-            z-index: 1001;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="hearts-layer"></div>
+    <audio id="bgm" loop src="https://www.bensound.com/bensound-music/bensound-love.mp3"></audio>
+    <audio id="clickSound" src="https://www.soundjay.com/buttons/button-16.mp3"></audio>
 
-    <div id="main-card">
-        <h1>JYOTIKA, <br> WILL YOU BE MY VALENTINE?</h1>
-        <div class="btn-container">
-            <button id="yesBtn" onclick="celebrate()">YES</button>
-            <button id="noBtn" onmouseover="moveNo()" ontouchstart="moveNo()">NO</button>
+    <div class="section">
+        <div class="glass-card">
+            <h1 style="font-weight: 900;">JYOTIKA,</h1>
+            <h2 style="font-weight: 900;">WILL YOU BE MY VALENTINE?</h2>
+            
+            <div class="love-grid">
+                <p class="love-item">I have a very important question...</p>
+            </div>
+
+            <div class="btn-group">
+                <button class="yes-btn" onclick="yesClick()">YES 💘</button>
+                <button id="noBtn" onmouseover="moveNo()" ontouchstart="moveNo()">NO 🙈</button>
+            </div>
         </div>
     </div>
 
-    <div id="success-container">
-        <h1 id="success-text">I KNEW YOU LOVE ME!</h1>
-        <img src="https://media.tenor.com/M0t0wXh2vO8AAAAM/bear-dance.gif" class="dancing-gif">
-    </div>
-
-    <script>
-        /* JS: LOGIC & INTERACTION */
-
-        // 1. Generate Constant Floating Hearts
-        function createHeart() {
-            const layer = document.getElementById('hearts-layer');
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
-            heart.style.opacity = Math.random();
-            layer.appendChild(heart);
-            setTimeout(() => heart.remove(), 7000);
-        }
-        setInterval(createHeart, 400);
-
-        // 2. Move "NO" Button randomly
-        const noBtn = document.getElementById('noBtn');
-        function moveNo() {
-            // Screen limits
-            const padding = 20;
-            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
-            
-            // Random coordinates
-            const newX = Math.max(padding, Math.random() * maxX);
-            const newY = Math.max(padding, Math.random() * maxY);
-
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = newX + 'px';
-            noBtn.style.top = newY + 'px';
-        }
-
-        // 3. Prevent clicking NO even if they are fast
-        noBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            moveNo();
-        });
-
-        // 4. Final Celebration Function
-        function celebrate() {
-            document.getElementById('main-card').style.display = 'none';
-            const success = document.getElementById('success-container');
-            success.style.display = 'flex';
-            
-            addGraffiti();
-        }
-
-        function addGraffiti() {
-            const words = ['LOVE', 'MINE', 'XOXO', 'YES!', '❤️', 'YOU & ME'];
-            const colors = ['#FF1493', '#FF4500', '#32CD32', '#1E90FF', '#FFD700'];
-            
-            for(let i=0; i < 40; i++) {
-                const tag = document.createElement('div');
-                tag.className = 'graffiti';
-                tag.innerText = words[Math.floor(Math.random() * words.length)];
-                tag.style.left = Math.random() * 100 + 'vw';
-                tag.style.top = Math.random() * 100 + 'vh';
-                tag.style.color = colors[Math.floor(Math.random() * colors.length)];
-                tag.style.fontSize = (Math.random() * 2 + 1) + 'rem';
-                tag.style.transform = `rotate(${Math.random() * 360}deg)`;
-                success.appendChild(tag);
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
+
