@@ -1,114 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shubhankar ❤️ Jyœtikæ</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-<!DOCTYPE html>  <html lang="en">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>Shubhankar ❤️ Jyœtikæ</title>  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">  
-<link rel="stylesheet" href="style.css">  
-</head>  <body>  <audio id="bgm" loop>  
-  <source src="https://www2.cs.uic.edu/~i101/SoundFiles/Angel.mp3" type="audio/mp3">  
-</audio>  <div class="floating-hearts"></div>  <section class="section">  
-    <div class="glass-card">  
-        <h1>Jyœtikæ 💖</h1>  
-        <h2>Why do you need Shubhankar as your Valentine?</h2>  
-        <p>Because he loves you endlessly ✨</p>  
-        <p>Because he chooses you every single day 💕</p>  
-        <p>Because with him, love feels magical 🥰</p>  
-    </div>  
-</section>  <section class="section">  
-    <div class="glass-card">  
-        <h2>Because I love you sooo much 💞</h2>  <div class="love-grid">  
-        <div class="love-item">Your smile makes me smile 💗</div>  
-        <div class="love-item">We make each other feel very special ✨</div>  
-        <div class="love-item">I keep falling for you every day 💓</div>  
-    </div>  
-</div>
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    overflow-x: hidden;
+}
 
-</section>  <section class="section">  
-    <div class="glass-card">  
-        <h2>Will you be my Valentine? 😼</h2>  
-        <p>Choose wisely. The cats are watching.</p>  <div class="btn-group">  
-        <button class="yes-btn" onclick="yesClick()">YES 💖</button>  
-        <button id="noBtn" onclick="moveNo()">NO 😏</button>  
-    </div>  
+.section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+}
 
-    <div id="catReaction"></div>  
+.glass-card {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(15px);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 600px;
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
 
-    <div class="cat-card">  
-        <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">  
-        <img src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif">  
-        <img src="https://media.giphy.com/media/13borq7Zo2kulO/giphy.gif">  
-    </div>  
+.love-grid {
+    display: grid;
+    gap: 15px;
+    margin-top: 20px;
+}
 
-</div>
+.love-item {
+    background: rgba(255,255,255,0.2);
+    padding: 15px;
+    border-radius: 10px;
+}
 
-</section>  <script src="script.js"></script>  </body>  
-</html>
-<div class="buttons">
-    <button id="yesBtn">Yes 💘</button>
-    <button id="noBtn">No 🙈</button>
-</div>
+.btn-group {
+    margin-top: 25px;
+    position: relative;
+}
 
-<div class="popup" id="popup">
-    <h2>Wise Choice 😌💖</h2>
-    <p>You just made the most beautiful decision of your life... and mine too.</p>
-    <p>– Shubhankar 💫</p>
-</div>
+button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.3s ease;
+}
+
+.yes-btn {
+    background: #ff4b6e;
+    color: white;
+}
+
+#noBtn {
+    background: #333;
+    color: white;
+    position: relative;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+.popup {
+    margin-top: 25px;
+    padding: 20px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 15px;
+    animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(20px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+/* Floating hearts */
+.emoji {
+    position: fixed;
+    bottom: -20px;
+    font-size: 22px;
+    animation: floatUp 4s linear forwards;
+}
+
+@keyframes floatUp {
+    to {
+        transform: translateY(-110vh);
+        opacity: 0;
+    }
+}
+
+/* Sparkles */
+.sparkle {
+    position: fixed;
+    font-size: 18px;
+    animation: sparkleAnim 1s ease forwards;
+}
+
+@keyframes sparkleAnim {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: translateY(-40px) scale(1.5); opacity: 0; }
+}
+
+.cat-card img {
+    width: 90px;
+    margin: 10px;
+    border-radius: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background Music -->
+<audio id="bgm" loop>
+  <source src="https://www2.cs.uic.edu/~i101/SoundFiles/Angel.mp3" type="audio/mp3">
+</audio>
+
+<!-- Click Sound -->
+<audio id="clickSound">
+  <source src="https://www.soundjay.com/buttons/sounds/button-16.mp3" type="audio/mp3">
+</audio>
+
+<section class="section">
+    <div class="glass-card">
+        <h1>Jyœtikæ 💖</h1>
+        <h2>Why do you need Shubhankar as your Valentine?</h2>
+        <p>Because he loves you endlessly ✨</p>
+        <p>Because he chooses you every single day 💕</p>
+        <p>Because with him, love feels magical 🥰</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="glass-card">
+        <h2>Because I love you sooo much 💞</h2>
+
+        <div class="love-grid">
+            <div class="love-item">Your smile makes me smile 💗</div>
+            <div class="love-item">We make each other feel very special ✨</div>
+            <div class="love-item">I keep falling for you every day 💓</div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="glass-card">
+        <h2>Will you be my Valentine? 😼</h2>
+        <p>Choose wisely. The cats are watching.</p>
+
+        <div class="btn-group">
+            <button class="yes-btn" id="yesBtn">YES 💖</button>
+            <button id="noBtn">NO 😏</button>
+        </div>
+
+        <div id="popupContainer"></div>
+
+        <div class="cat-card">
+            <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
+            <img src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif">
+            <img src="https://media.giphy.com/media/13borq7Zo2kulO/giphy.gif">
+        </div>
+
+    </div>
+</section>
 
 <script>
-
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
-const popup = document.getElementById("popup");
+const popupContainer = document.getElementById("popupContainer");
+const bgm = document.getElementById("bgm");
+const clickSound = document.getElementById("clickSound");
 
-yesBtn.addEventListener("click", function(){
-    popup.classList.add("show");
-    emojiEffect();
-});
+let musicStarted = false;
 
-noBtn.addEventListener("mouseover", function(){
-    moveNoButton();
-});
-
-function moveNoButton(){
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+function playClick() {
+    clickSound.currentTime = 0;
+    clickSound.play();
 }
 
-function emojiEffect(){
-
-    const emojis = ["💖","💕","✨","🥰"];
-    let count = 0;
-
-    const interval = setInterval(()=>{
-
-        if(count >= 12){
-            clearInterval(interval);
-            return;
-        }
-
-        const emoji = document.createElement("div");
-        emoji.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
-
-        emoji.style.position="fixed";
-        emoji.style.left=Math.random()*90 + "vw";
-        emoji.style.bottom="-30px";
-        emoji.style.fontSize="22px";
-        emoji.style.pointerEvents="none";
-        emoji.style.animation="floatUp 5s ease-in-out forwards";
-
-        document.body.appendChild(emoji);
-
-        setTimeout(()=>emoji.remove(),5000);
-
-        count++;
-
-    },300);
+function startMusic() {
+    if (!musicStarted) {
+        bgm.play();
+        musicStarted = true;
+    }
 }
 
+function createSparkle(x, y) {
+    const sparkle = document.createElement("div");
+    sparkle.className = "sparkle";
+    sparkle.innerText = "✨";
+    sparkle.style.left = x + "px";
+    sparkle.style.top = y + "px";
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 1000);
+}
+
+document.addEventListener("click", (e) => {
+    startMusic();
+    playClick();
+    createSparkle(e.clientX, e.clientY);
+});
+
+yesBtn.addEventListener("click", () => {
+
+    if (document.querySelector(".popup")) return;
+
+    popupContainer.innerHTML = `
+        <div class="popup">
+            <h3>Wise choice ❤️</h3>
+            <p>You just unlocked a lifetime of love and cuddles ✨</p>
+        </div>
+    `;
+
+    yesBtn.style.boxShadow = "0 0 25px #ff4b6e";
+
+    for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+            const emoji = document.createElement("div");
+            emoji.className = "emoji";
+            emoji.innerText = "💖";
+            emoji.style.left = Math.random() * 100 + "vw";
+            document.body.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 4000);
+        }, i * 150);
+    }
+});
+
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 100 - 50;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+});
 </script>
 
 </body>
