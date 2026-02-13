@@ -1,65 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shubhankar ❤️ Jyœtikæ</title>
+<title>For Jyœtikæ 💖</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<style>
+
+body{
+    margin:0;
+    padding:0;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+    font-family:Arial, sans-serif;
+    overflow:hidden;
+}
+
+h1{
+    color:#fff;
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.buttons{
+    position:relative;
+}
+
+button{
+    padding:12px 25px;
+    margin:10px;
+    font-size:18px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+#yesBtn{
+    background:#ff4d6d;
+    color:white;
+    box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+
+#yesBtn:hover{
+    transform:scale(1.1);
+}
+
+#noBtn{
+    background:#444;
+    color:white;
+    position:absolute;
+}
+
+/* Popup */
+
+.popup{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(0);
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    transition:0.4s ease;
+    z-index:10;
+}
+
+.popup.show{
+    transform:translate(-50%,-50%) scale(1);
+}
+
+.popup h2{
+    margin:0;
+    color:#ff4d6d;
+}
+
+.popup p{
+    margin-top:10px;
+    font-size:16px;
+}
+
+@keyframes floatUp{
+    0%{
+        transform:translateY(0) scale(0.8);
+        opacity:0;
+    }
+    20%{
+        opacity:1;
+    }
+    100%{
+        transform:translateY(-120vh) scale(1.2);
+        opacity:0;
+    }
+}
+
+</style>
 </head>
 
 <body>
 
-<audio id="bgm" loop>
-  <source src="https://www2.cs.uic.edu/~i101/SoundFiles/Angel.mp3" type="audio/mp3">
-</audio>
+<h1>Jyœtikæ 💖<br>Will you be mine?</h1>
 
-<div class="floating-hearts"></div>
+<div class="buttons">
+    <button id="yesBtn">Yes 💘</button>
+    <button id="noBtn">No 🙈</button>
+</div>
 
-<section class="section">
-    <div class="glass-card">
-        <h1>Jyœtikæ 💖</h1>
-        <h2>Why do you need Shubhankar as your Valentine?</h2>
-        <p>Because he loves you endlessly ✨</p>
-        <p>Because he chooses you every single day 💕</p>
-        <p>Because with him, love feels magical 🥰</p>
-    </div>
-</section>
+<div class="popup" id="popup">
+    <h2>Wise Choice 😌💖</h2>
+    <p>You just made the most beautiful decision of your life... and mine too.</p>
+    <p>– Shubhankar 💫</p>
+</div>
 
-<section class="section">
-    <div class="glass-card">
-        <h2>Because I love you sooo much 💞</h2>
+<script>
 
-        <div class="love-grid">
-            <div class="love-item">Your smile makes me smile 💗</div>
-            <div class="love-item">We make each other feel very special ✨</div>
-            <div class="love-item">I keep falling for you every day 💓</div>
-        </div>
-    </div>
-</section>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const popup = document.getElementById("popup");
 
-<section class="section">
-    <div class="glass-card">
-        <h2>Will you be my Valentine? 😼</h2>
-        <p>Choose wisely. The cats are watching.</p>
+yesBtn.addEventListener("click", function(){
+    popup.classList.add("show");
+    emojiEffect();
+});
 
-        <div class="btn-group">
-            <button class="yes-btn" onclick="yesClick()"></button><button id="yesBtn">Yes 💖</button>
-            <button id="noBtn" onclick="moveNo()">NO 😏</button>
-        </div>
+noBtn.addEventListener("mouseover", function(){
+    moveNoButton();
+});
 
-        <div id="catReaction"></div>
+function moveNoButton(){
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
 
-        <div class="cat-card">
-            <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
-            <img src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif">
-            <img src="https://media.giphy.com/media/13borq7Zo2kulO/giphy.gif">
-        </div>
+function emojiEffect(){
 
-    </div>
-</section>
+    const emojis = ["💖","💕","✨","🥰"];
+    let count = 0;
 
-<script src="script.js"></script>
+    const interval = setInterval(()=>{
+
+        if(count >= 12){
+            clearInterval(interval);
+            return;
+        }
+
+        const emoji = document.createElement("div");
+        emoji.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
+
+        emoji.style.position="fixed";
+        emoji.style.left=Math.random()*90 + "vw";
+        emoji.style.bottom="-30px";
+        emoji.style.fontSize="22px";
+        emoji.style.pointerEvents="none";
+        emoji.style.animation="floatUp 5s ease-in-out forwards";
+
+        document.body.appendChild(emoji);
+
+        setTimeout(()=>emoji.remove(),5000);
+
+        count++;
+
+    },300);
+}
+
+</script>
+
 </body>
 </html>
