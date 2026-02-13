@@ -201,3 +201,15 @@ button:hover {
     margin: 10px;
     border-radius: 15px;
 }
+
+/* Line reveal animation */
+.line {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.line.show-line {
+    opacity: 1;
+    transform: translateY(0);
+}
