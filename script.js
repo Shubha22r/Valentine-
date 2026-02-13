@@ -6,8 +6,9 @@ const catReaction = document.getElementById("catReaction");
 
 let musicStarted = false;
 let yesScale = 1;
+let noCount = 0;
 
-// Start music on first interaction
+// Start music on first click
 document.addEventListener("click", function () {
     if (!musicStarted) {
         bgm.volume = 0.5;
@@ -16,50 +17,66 @@ document.addEventListener("click", function () {
     }
 });
 
-// Soft click sound
 function playClick() {
     clickSound.volume = 0.2;
     clickSound.currentTime = 0;
     clickSound.play();
 }
 
-// YES Click
+// YES CLICK
 function yesClick() {
     playClick();
 
     catReaction.innerHTML = `
         <div class="popup">
-            <h3>That felt right, didn’t it? 💞</h3>
-            <p>You just made a beautiful choice ✨</p>
+            <h3>You chose love 💞</h3>
+            <p>That was the most beautiful decision ever ✨</p>
         </div>
     `;
 
-    // Soft floating hearts
-    for (let i = 0; i < 8; i++) {
+    // Floating hearts
+    for (let i = 0; i < 10; i++) {
         setTimeout(() => {
             const heart = document.createElement("div");
             heart.className = "emoji";
-            heart.innerText = "💗";
+            heart.innerText = "💖";
             heart.style.left = Math.random() * 100 + "vw";
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 4000);
-        }, i * 300);
+        }, i * 200);
     }
 }
 
-// NO movement (LESS movement now)
+// NO CLICK
 function moveNo() {
     playClick();
+    noCount++;
 
-    // small random shift (limited range)
-    const x = Math.random() * 60 - 30;   // -30px to +30px
-    const y = Math.random() * 40 - 20;   // -20px to +20px
+    // Slight movement (controlled)
+    const x = Math.random() * 60 - 30;
+    const y = Math.random() * 40 - 20;
 
     noBtn.style.transition = "transform 0.3s ease";
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 
-    // YES button grows every time NO is pressed
+    // YES grows
     yesScale += 0.15;
-    yesBtn.style.transition = "transform 0.3s ease";
+    yesBtn.style.transition = "all 0.3s ease";
     yesBtn.style.transform = `scale(${yesScale})`;
+
+    // Glow increases
+    yesBtn.style.boxShadow = `0 0 ${20 + noCount * 10}px rgba(255,75,110,0.8)`;
+
+    // Cat reactions
+    if (noCount === 1) {
+        catReaction.innerHTML = "<p>😾 The cats are judging you...</p>";
+    } 
+    else if (noCount === 2) {
+        catReaction.innerHTML = "<p>🙀 Are you sure about that?</p>";
+    } 
+    else if (noCount >= 3) {
+        catReaction.innerHTML = "<p>😼 Resistance is futile. Just press YES.</p>";
+        yesBtn.style.transform = "scale(1.8)";
+        yesBtn.style.animation = "pulse 1s infinite";
+    }
 }
